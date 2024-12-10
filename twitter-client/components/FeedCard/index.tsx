@@ -12,7 +12,7 @@ const FeedCard: React.FC = () => {
                 <Image src="https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001882.png" alt='this is a profile image' height={50} width={50} />
             </div>
             <div className="col-span-11 ">
-                <h5>Prasad Gurude</h5>
+                <h5>Prasad Gurude</h5> 
                 <p>
                     Do You Need Canva Pro! lifetime Subscription 🔥
 

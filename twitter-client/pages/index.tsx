@@ -7,10 +7,10 @@ import { FaUserGroup } from "react-icons/fa6";
 import { CiBookmark } from "react-icons/ci";
 import { BsPerson } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
-
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 import localFont from "next/font/local";
-import React from "react";
+import React, { useCallback } from "react";
 import FeedCard from "@/components/FeedCard";
 
 const geistSans = localFont({
@@ -65,6 +65,9 @@ const SidebarMenueItems: TwitterSidebarButton[] = [
 ]
 
 export default function Home() {
+
+  const handleLoginWithGoogle = useCallback((cred:CredentialResponse)=>{},[])
+
   return (
     <div>
       <div className="grid grid-cols-12 h-screen w-screen px-56">
@@ -78,7 +81,7 @@ export default function Home() {
                 SidebarMenueItems.map(item => <li key={item.title} className="flex flex-row justify-start items-center gap-4 hover:bg-gray-800 rounded-full px-3 py-1 w-fit cursor-pointer mb-2">
                   <span className="text-2xl">{item.icon}</span>
                   <span>{item.title}</span>
-                  </li>)
+                </li>)
               }
             </ul>
             <div className="px-3 pr-5 font-semibold">
@@ -87,15 +90,20 @@ export default function Home() {
           </div>
         </div>
         <div className="col-span-6 border-r-[1px] border-l-[1px] border-gray-600 h-screen overflow-scroll ">
-          <FeedCard/>
-          <FeedCard/>
-          <FeedCard/>
-          <FeedCard/>
-          <FeedCard/>
-          <FeedCard/>
-          <FeedCard/>
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard />
+          <FeedCard /> 
         </div>
-        <div className="col-span-3">hi</div>
+        <div className="col-span-3 p-5">
+          <div className="border p-5 bg-slate-700 rounded-lg">
+            <h1 className="my-2 text-xl text-center">New to Twitter</h1>
+          <GoogleLogin onSuccess={cred => console.log(cred)}/>
+          </div>
+        </div>
       </div>
     </div>
   );

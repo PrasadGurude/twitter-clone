@@ -9,12 +9,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const index_1 = require("./app/index");
-const PORT = 8000;
-function init() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const app = yield (0, index_1.initServer)();
-        app.listen(PORT, () => console.log(`server is running on the port number PORT:${PORT}`));
-    });
-}
-init();
+exports.resolvers = void 0;
+const queries = {
+    verifyGoogleToken: (parent_1, _a) => __awaiter(void 0, [parent_1, _a], void 0, function* (parent, { token }) {
+        return token;
+    }),
+};
+exports.resolvers = { queries };

@@ -1,9 +1,10 @@
 import {initServer} from './app/index'
 
+const PORT  = 8000;
 
 async function init() {
     const app = await initServer()
-    app.listen(8000,()=>console.log("server is running on the port number 8000"))
+    app.listen(PORT,()=>console.log(`server is running on the port number PORT:${PORT}`))
 
 }
 
