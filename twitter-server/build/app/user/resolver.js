@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
 const axios_1 = __importDefault(require("axios"));
+const db_1 = require("../../clients/db");
+const jwt_1 = __importDefault(require("../../services/jwt"));
 const queries = {
     verifyGoogleToken: (parent_1, _a) => __awaiter(void 0, [parent_1, _a], void 0, function* (parent, { token }) {
         const googleToken = token;
@@ -22,8 +24,25 @@ const queries = {
         const { data } = yield axios_1.default.get(googleOauthURL.toString(), {
             responseType: "json"
         });
-        console.log(data);
-        return "ok";
+        const user = yield db_1.prismaclient.user.findUnique({
+            where: {
+                email: data.email
+            }
+        });
+        if (!user) {
+            const newUser = yield db_1.prismaclient.user.create({
+                data: {
+                    email: data.email,
+                    firstName: data.given_name,
+                    lastName: data.family_name,
+                    profileImageURL: data.picture,
+                }
+            });
+            const userToken = jwt_1.default.generateTokenForUser(newUser);
+            return userToken;
+        }
+        const userToken = jwt_1.default.generateTokenForUser(user);
+        return userToken;
     }),
 };
 exports.resolvers = { queries };
