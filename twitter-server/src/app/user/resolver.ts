@@ -47,7 +47,7 @@ const queries = {
                 }                
             })
             const userToken = JWTService.generateTokenForUser(newUser)
-            return userToken
+            return userToken;
         }
 
         const userToken = JWTService.generateTokenForUser(user!)
