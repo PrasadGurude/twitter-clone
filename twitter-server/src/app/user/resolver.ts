@@ -46,11 +46,18 @@ const queries = {
                     profileImageURL:data.picture,
                 }                
             })
-            const userToken = JWTService.generateTokenForUser(newUser)
-            return userToken;
+            
         }
 
-        const userToken = JWTService.generateTokenForUser(user!)
+        const userInDb  = await prismaclient.user.findUnique({
+            where:{
+                email:data.email
+            }
+        })
+
+        if(!userInDb) throw Error("user with wiht email not found")
+
+        const userToken = JWTService.generateTokenForUser(userInDb)
         return userToken;
     },
 };
