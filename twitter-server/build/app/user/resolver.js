@@ -38,10 +38,15 @@ const queries = {
                     profileImageURL: data.picture,
                 }
             });
-            const userToken = jwt_1.default.generateTokenForUser(newUser);
-            return userToken;
         }
-        const userToken = jwt_1.default.generateTokenForUser(user);
+        const userInDb = yield db_1.prismaclient.user.findUnique({
+            where: {
+                email: data.email
+            }
+        });
+        if (!userInDb)
+            throw Error("user with wiht email not found");
+        const userToken = jwt_1.default.generateTokenForUser(userInDb);
         return userToken;
     }),
 };
