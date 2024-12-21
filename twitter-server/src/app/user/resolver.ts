@@ -47,7 +47,7 @@ const queries = {
                 }                
             })
             
-        }
+        } 
 
         const userInDb  = await prismaclient.user.findUnique({
             where:{

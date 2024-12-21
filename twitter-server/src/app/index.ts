@@ -2,8 +2,8 @@ import express from "express"
 import { ApolloServer } from "@apollo/server"
 import {expressMiddleware} from "@apollo/server/express4"
 import bodyParser from 'body-parser'
+import cors from 'cors'
 import { prismaclient } from "../clients/db"
-const cors = require('cors')
 import { User } from "./user"
 
 export async function initServer() {

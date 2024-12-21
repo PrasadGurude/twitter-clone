@@ -8,10 +8,16 @@ import { CiBookmark } from "react-icons/ci";
 import { BsPerson } from "react-icons/bs";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 import localFont from "next/font/local";
 import React, { useCallback } from "react";
 import FeedCard from "@/components/FeedCard";
+import { GraphQLClient } from "graphql-request";
+import { graphQLClient } from "@/clients/api";
+import { verifyUserGoogleTokenQuery } from "@/graphql/query/user";
+import { log } from "console";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -66,10 +72,23 @@ const SidebarMenueItems: TwitterSidebarButton[] = [
 
 export default function Home() {
 
-  const handleLoginWithGoogle = useCallback((cred:CredentialResponse)=>{},[])
+  const handleLoginWithGoogle = useCallback(async (cred: CredentialResponse) => {
+    const googleToken = cred.credential
+    if (!googleToken) return toast.error("google token not found")
+    const {verifyGoogleToken} = await graphQLClient.request(
+      verifyUserGoogleTokenQuery,
+      { token: googleToken }
+    );
+    toast.success('verified Sucess')
+    console.log(verifyGoogleToken);
 
+    if(verifyGoogleToken) window.localStorage.setItem('token',verifyGoogleToken)
+    
+  }, [])
+ 
   return (
     <div>
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="grid grid-cols-12 h-screen w-screen px-56">
         <div className="col-span-3 flex justify-start flex-col pt-2 px-2 ">
           <div className="text-3xl h-fit hover:bg-gray-800 rounded-full p-2 mx-2 w-fit cursor-pointer transition-all">
@@ -96,12 +115,12 @@ export default function Home() {
           <FeedCard />
           <FeedCard />
           <FeedCard />
-          <FeedCard /> 
+          <FeedCard />
         </div>
         <div className="col-span-3 p-5">
           <div className="border p-5 bg-slate-700 rounded-lg">
             <h1 className="my-2 text-xl text-center">New to Twitter</h1>
-          <GoogleLogin onSuccess={cred => console.log(cred)}/>
+            <GoogleLogin onSuccess={handleLoginWithGoogle} />
           </div>
         </div>
       </div>
