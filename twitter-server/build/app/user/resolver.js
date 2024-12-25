@@ -49,5 +49,8 @@ const queries = {
         const userToken = jwt_1.default.generateTokenForUser(userInDb);
         return userToken;
     }),
+    getCurrentUser: (parent, args, ctx) => __awaiter(void 0, void 0, void 0, function* () {
+        return ctx.user;
+    })
 };
 exports.resolvers = { queries };
